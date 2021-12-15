@@ -240,9 +240,6 @@ static CXProvider* sharedProvider;
     if (dic[@"aps"] != nil) {
         NSLog(@"Do not use the 'alert' format for push type %@.", payload.type);
         [self sendEventWithNameWrapper:CallKeepDidRecieveVoipMessage body:dic];
-        if(completion != nil) {
-            completion();
-        }
         return;
     }
 
