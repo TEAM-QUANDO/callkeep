@@ -24,6 +24,7 @@ static NSString *const CallKeepProviderReset = @"CallKeepProviderReset";
 static NSString *const CallKeepCheckReachability = @"CallKeepCheckReachability";
 static NSString *const CallKeepDidLoadWithEvents = @"CallKeepDidLoadWithEvents";
 static NSString *const CallKeepPushKitToken = @"CallKeepPushKitToken";
+static NSString *const CallKeepDidRecieveVoipMessage = @"CallKeepDidRecieveVoipMessage";
 
 @implementation CallKeep
 {
@@ -241,6 +242,7 @@ static CXProvider* sharedProvider;
 
     if (dic[@"aps"] != nil) {
         NSLog(@"Do not use the 'alert' format for push type %@.", payload.type);
+        [self sendEventWithNameWrapper:CallKeepDidRecieveVoipMessage body:dic];
         if(completion != nil) {
             completion();
         }
