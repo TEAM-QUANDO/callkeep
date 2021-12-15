@@ -448,7 +448,7 @@ class FlutterCallkeep extends EventManager {
       case 'CallKeepDidRecieveVoipMessage':
         final handler = _voipMessageHandler;
         if (handler != null) {
-          handler(data as Map<String, dynamic>);
+          handler(data.cast<String, dynamic>());
         }
         break;
     }
