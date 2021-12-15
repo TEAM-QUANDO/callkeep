@@ -237,11 +237,7 @@ static CXProvider* sharedProvider;
 
     NSDictionary *dic = payload.dictionaryPayload;
 
-    if (dic[@"aps"] != nil) {
-        NSLog(@"Do not use the 'alert' format for push type %@.", payload.type);
-        [self sendEventWithNameWrapper:CallKeepDidRecieveVoipMessage body:dic];
-        return;
-    }
+    [self sendEventWithNameWrapper:CallKeepDidRecieveVoipMessage body:dic];
 
     NSString *uuid = dic[@"uuid"];
     NSString *callerId = dic[@"caller_id"];
