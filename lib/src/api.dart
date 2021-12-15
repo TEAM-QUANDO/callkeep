@@ -20,6 +20,8 @@ bool get isIOS => Platform.isIOS;
 bool get supportConnectionService =>
     !isIOS && int.parse(Platform.version) >= 23;
 
+typedef VoipMessageHandler = void Function(Map<String, dynamic> payload);
+
 class FlutterCallkeep extends EventManager {
   factory FlutterCallkeep() {
     return _instance;
@@ -30,6 +32,12 @@ class FlutterCallkeep extends EventManager {
   static final FlutterCallkeep _instance = FlutterCallkeep._internal();
   static const MethodChannel _channel = MethodChannel('FlutterCallKeep.Method');
   static const MethodChannel _event = MethodChannel('FlutterCallKeep.Event');
+  static VoipMessageHandler? _voipMessageHandler;
+
+  static void onVoipMessage(VoipMessageHandler? handler) {
+    _voipMessageHandler = handler;
+  }
+
   BuildContext? _context;
 
   Future<void> setup(BuildContext? context, Map<String, dynamic> options,
@@ -436,6 +444,12 @@ class FlutterCallkeep extends EventManager {
         break;
       case 'CallKeepPushKitToken':
         emit(CallKeepPushKitToken.fromMap(data));
+        break;
+      case 'CallKeepDidRecieveVoipMessage':
+        final handler = _voipMessageHandler;
+        if (handler != null) {
+          handler(data as Map<String, dynamic>);
+        }
         break;
     }
   }
